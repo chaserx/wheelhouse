@@ -11,11 +11,14 @@
   %>
   <title><%= title %></title>
   <%= stylesheet_link_tag :application, media: "all" %>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <%= csrf_meta_tags %>
 </head>
 <body class="<%= body_class %>">
-  <%= render "flashes" -%>
-  <%= yield %>
+  <div class="wrapper">
+    <%= render "flashes" -%>
+    <%= yield %>
+  </div>
   <%= render "javascript" %>
 </body>
 </html>
