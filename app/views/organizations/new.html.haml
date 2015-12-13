@@ -1,0 +1,7 @@
+.center
+  = simple_form_for @organization, html: {class: 'search-bar', role: 'search'} do |f|
+    = f.error_notification
+    = f.search_field :name, placeholder: 'GitHub Organization Name'
+    = button_tag(data: {disable_with: "<i class='fa fa-spinner fa-spin'></i> Searching...".html_safe}) do
+      %i.fa.fa-search
+
