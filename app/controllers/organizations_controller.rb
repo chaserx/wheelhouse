@@ -16,10 +16,10 @@ class OrganizationsController < ApplicationController
             # maybe start job of finding members and their skillz
             redirect_to @organization
           else
-            not_found
+            not_found # being lazy, but this is really could not save
           end
         else
-          not_found
+          not_found # if data can be fetched, I'm not sure we get here unless it's bad
         end
       else
         not_found
