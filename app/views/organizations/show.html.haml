@@ -4,4 +4,11 @@
     = @organization.name
     public members
   .member-info
-    members and member skills go here
+    - if @organization.members.any?
+      %ul
+        - @organization.members.order('github_login').each do |member|
+          %li
+            = image_tag member.avatar_url, class: 'org_avatar'
+            = member.github_login
+    - else
+      %p There are no public members for this organization.
