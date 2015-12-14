@@ -8,18 +8,25 @@ class OrganizationsController < ApplicationController
   def create
     org_name = params[:organization][:name].downcase
     @organization = Organization.find_or_initialize_by(name: org_name)
-
-    if @organization.new_record?
-      if data=Organization.fetch_org_info(@organization.name)
+    @client = GithubClient.new
+    if @organization.new_record? # or record is old
+      if data=@client.fetch_org_info(@organization.name)
         if @organization.set_github_attrs(data)
           if @organization.save
             # maybe start job of finding members and their skillz
+            @members = @client.fetch_org_member_list(@organization.login)
+            @members.each do |member_data|
+              member = Member.find_or_initialize_by(github_login: member_data.login)
+              member.set_github_attrs(member_data)
+              member.organizations << @organization
+              member.save
+            end
             redirect_to @organization
           else
             not_found # being lazy, but this is really could not save
           end
         else
-          not_found # if data can be fetched, I'm not sure we get here unless it's bad
+          not_found # if data can be fetched, I'm not sure we get here unless it's real bad
         end
       else
         not_found
