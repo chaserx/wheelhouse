@@ -16,23 +16,79 @@
 
     .org-info {
       padding-bottom: 10px;
-      border-bottom: 1px solid $light-gray;
+      margin-bottom: 1.4em;
+      border-bottom: 2px solid $light-gray;
       img.org_avatar {
-        width: 50px;
+        width: auto;
         height: 50px;
         vertical-align: middle;
       }
     }
-    .member-info {
-      ul li {
-        padding: 10px;
-        border-bottom: 1px solid $light-gray;
-        img.org_avatar {
-          width: 50px;
-          height: 50px;
-          vertical-align: middle;
-        }
-      }
+  }
+}
+
+.member {
+  $base-border-radius: 3px !default;
+  $base-spacing: 1.5em !default;
+  $action-color: #477DCA !default;
+  $dark-gray: #333 !default;
+  $base-font-color: $dark-gray !default;
+  $member-gutter: 1.4em;
+  $member-image-padding: 0;
+  $member-image-width: 50px;
+  $member-color: $base-font-color;
+  $member-background: lighten($action-color, 15%);
+  $member-detail-color: transparentize($member-color, 0.5);
+  $member-image-vert-alignment: top;
+
+  border-bottom: 1px solid transparentize($member-color, 0.9);
+  display: table;
+  margin-bottom: $base-spacing;
+  padding-bottom: 1em;
+  width: 100%;
+
+  .member-image,
+  .member-content {
+    display: table-cell;
+    vertical-align: $member-image-vert-alignment;
+  }
+
+  .member-image {
+    padding-right: $member-gutter;
+
+    > img {
+      background: $member-background;
+      border-radius: $base-border-radius;
+      display: block;
+      height: auto;
+      max-width: none;
+      padding: $member-image-padding;
+      width: $member-image-width;
+    }
+
+    .member-reverse-order & {
+      padding-right: 0;
+      padding-left: 10px;
+    }
+  }
+
+  .member-content {
+    width: 100%;
+
+    h1 {
+      font-size: 1em;
+      margin: 0 0 0.5em 0;
+    }
+
+    p {
+      line-height: 1.5em;
+      margin-bottom: 0.5em;
+    }
+
+    p.member-detail {
+      color: $member-detail-color;
+      font-size: 0.9em;
+      font-style: italic;
     }
   }
 }

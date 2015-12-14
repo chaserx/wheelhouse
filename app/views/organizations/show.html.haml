@@ -3,12 +3,14 @@
     = image_tag @organization.avatar_url, class: 'org_avatar'
     = @organization.name
     public members
-  .member-info
-    - if @organization.members.any?
-      %ul
-        - @organization.members.order('github_login').each do |member|
-          %li
-            = image_tag member.avatar_url, class: 'org_avatar'
-            = member.github_login
-    - else
-      %p There are no public members for this organization.
+  - if @organization.members.any?
+    - @organization.members.order('github_login').each do |member|
+      .member
+        .member-image
+          = image_tag member.avatar_url, class: 'org_avatar'
+        .member-content
+          %h1= member.github_login
+          .member-detail
+            skills go here
+  - else
+    %p There are no public members for this organization.
