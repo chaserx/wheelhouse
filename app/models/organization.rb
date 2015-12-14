@@ -1,16 +1,7 @@
-require 'octokit'
-
 class Organization < ActiveRecord::Base
   validates :name, presence: true
   # githubid should be uniq
-
-  # TODO(chaserx): this could probably be in its own lib file
-  def self.fetch_org_info(name)
-    client = Octokit::Client.new(access_token: ENV.fetch('GITHUB_API_TOKEN'))
-    client.org(name)
-  rescue Octokit::NotFound
-    return false
-  end
+  has_and_belongs_to_many :members
 
   def set_github_attrs(org_info)
     self.login = org_info[:login]
