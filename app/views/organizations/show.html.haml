@@ -11,8 +11,9 @@
         .member-content
           %h1= member.github_login
           .member-detail
-            - member.languages.each_with_index do |language, index|
-              %span.lang{class: "rank-#{index}"}
-                = language.name.to_s.downcase
+            %p
+              - member.languages.each_with_index do |language, index|
+                %span.lang{class: "rank-#{index}"}
+                  = language.name.to_s.downcase
   - else
     %p There are no public members for this organization.
