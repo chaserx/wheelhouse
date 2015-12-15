@@ -16,13 +16,14 @@ class GithubClient
     org.rels[:public_members].get.data
   end
 
-  def parse_member_languages(member_name)
-    member = connection.user(member_name)
+  def fetch_member_languages(member_login)
+    languages = {}
+    member = connection.user(member_login)
     repos = member.rels[:repos].get.data
     repos.each do |repo|
       next if repo.fork
       languages.merge!(repo.rels[:languages].get.data) { |key, old_val, new_val| new_val + old_val }
     end
-    languages
+    Hash[languages.sort_by{|k, v| v}.reverse]
   end
 end
