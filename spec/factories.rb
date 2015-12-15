@@ -1,4 +1,7 @@
-FactoryGirl.define do  factory :member do
+FactoryGirl.define do  factory :language do
+    
+  end
+  factory :member do
     
   end
   factory :organization do
