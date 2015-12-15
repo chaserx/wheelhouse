@@ -40,7 +40,7 @@ group :development, :test do
   gem "byebug"
   gem "dotenv-rails"
   gem "factory_girl_rails"
-  # gem "i18n-tasks"
+  # gem "i18n-tasks" currently conflicts with rubocop. not needed just yet.
   gem "pry-rails"
   gem "rspec-rails", "~> 3.3.0"
   gem 'rubocop', '~> 0.35.1', require: false
