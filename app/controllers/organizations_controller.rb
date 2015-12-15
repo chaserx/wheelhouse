@@ -10,7 +10,7 @@ class OrganizationsController < ApplicationController
     @organization = Organization.find_or_initialize_by(name: org_name)
     @client = GithubClient.new
     if @organization.new_record? # or record is outdated
-      if data=@client.fetch_org_info(@organization.name)
+      if data = @client.fetch_org_info(@organization.name)
         if @organization.set_github_attrs(data)
           if @organization.save
             @members = @client.fetch_org_member_list(@organization.login)
@@ -49,5 +49,4 @@ class OrganizationsController < ApplicationController
     flash[:alert] = "Sorry. We could not find or create organization: #{org_name}"
     redirect_to root_path
   end
-
 end
