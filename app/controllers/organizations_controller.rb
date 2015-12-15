@@ -9,17 +9,18 @@ class OrganizationsController < ApplicationController
     org_name = params[:organization][:name].downcase
     @organization = Organization.find_or_initialize_by(name: org_name)
     @client = GithubClient.new
-    if @organization.new_record? # or record is old
+    if @organization.new_record? # or record is outdated
       if data=@client.fetch_org_info(@organization.name)
         if @organization.set_github_attrs(data)
           if @organization.save
-            # maybe start job of finding members and their skillz
             @members = @client.fetch_org_member_list(@organization.login)
             @members.each do |member_data|
               member = Member.find_or_initialize_by(github_login: member_data.login)
+              # if new member record or member record outdated
               member.set_github_attrs(member_data)
               member.organizations << @organization
               member.save
+              SkillFetcherJob.perform_later(member.id)
             end
             redirect_to @organization
           else
