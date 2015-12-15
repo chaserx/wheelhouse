@@ -1,5 +1,6 @@
 class Member < ActiveRecord::Base
   has_and_belongs_to_many :organizations
+  has_many :languages
 
   def set_github_attrs(member_info)
     self.github_login = member_info[:login]
