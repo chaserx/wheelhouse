@@ -1,4 +1,6 @@
 .center
+  %h2 What languages are in your organization's wheelhouse?
+
   = simple_form_for @organization, html: {class: 'search-bar', role: 'search'} do |f|
     = f.error_notification
     = f.search_field :name, placeholder: 'GitHub Organization Name'

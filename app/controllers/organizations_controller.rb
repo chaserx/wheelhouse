@@ -27,7 +27,8 @@ class OrganizationsController < ApplicationController
             not_found # being lazy, but this is really could not save
           end
         else
-          not_found # if data can be fetched, I'm not sure we get here unless it's real bad
+          # if we get here, it's real bad
+          not_found
         end
       else
         not_found
