@@ -11,6 +11,7 @@
         .member-content
           %h1= member.github_login
           .member-detail
-            skills go here
+            - member.languages.each_with_index do |e,i|
+              = "#{i}) #{e.name};"
   - else
     %p There are no public members for this organization.
