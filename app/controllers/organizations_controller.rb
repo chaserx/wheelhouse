@@ -15,7 +15,8 @@ class OrganizationsController < ApplicationController
           if @organization.save
             @members = @client.fetch_org_member_list(@organization.login)
             @members.each do |member_data|
-              member = Member.find_or_initialize_by(github_login: member_data.login)
+              member_args = { github_login: member_data.login }
+              member = Member.find_or_initialize_by(member_args)
               # if new member record or member record outdated
               member.set_github_attrs(member_data)
               member.organizations << @organization
@@ -44,7 +45,7 @@ class OrganizationsController < ApplicationController
     @organization = Organization.find(params[:id])
     if params[:sort]
       @members = @organization.members.includes(:languages).
-                               order("languages.name = \'#{params[:sort]}\' DESC,
+                 order("languages.name = \'#{params[:sort]}\' DESC,
                                      languages.bytes DESC")
     else
       @members = @organization.members
@@ -54,7 +55,8 @@ class OrganizationsController < ApplicationController
   private
 
   def not_found
-    flash[:alert] = "Sorry. We could not find or create organization: #{org_name}"
+    flash[:alert] = 'Sorry. We could not find or create organization:' \
+                    " #{org_name}"
     redirect_to root_path
   end
 end

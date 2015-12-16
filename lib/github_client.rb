@@ -22,7 +22,9 @@ class GithubClient
     repos = member.rels[:repos].get.data
     repos.each do |repo|
       next if repo.fork
-      languages.merge!(repo.rels[:languages].get.data) { |_key, old_val, new_val| new_val + old_val }
+      languages.merge!(repo.rels[:languages].get.data) do |_k, old_val, new_val|
+        new_val + old_val
+      end
     end
     Hash[languages.sort_by { |_k, v| v }.reverse]
   end
