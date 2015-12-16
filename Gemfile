@@ -24,6 +24,7 @@ gem "title"
 gem "uglifier"
 gem 'haml-rails', '~> 0.9.0'
 gem 'octokit', '~> 4.2.0'
+gem 'friendly_id', '~> 5.1.0'
 
 group :development do
   gem "quiet_assets"

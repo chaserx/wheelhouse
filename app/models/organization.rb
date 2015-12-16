@@ -1,4 +1,7 @@
 class Organization < ActiveRecord::Base
+  extend FriendlyId
+  friendly_id :name, use: :slugged
+
   validates :name, presence: true
   # githubid should be uniq
   has_and_belongs_to_many :members

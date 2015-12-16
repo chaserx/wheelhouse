@@ -42,7 +42,7 @@ class OrganizationsController < ApplicationController
   # GET /organizations/1
   # GET /organizations/openlexington
   def show
-    @organization = Organization.find(params[:id])
+    @organization = Organization.friendly.find(params[:id])
     if params[:sort]
       @members = @organization.members.includes(:languages).
                  order("languages.name = \'#{params[:sort]}\' DESC,
