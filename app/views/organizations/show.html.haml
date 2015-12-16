@@ -3,8 +3,8 @@
     = image_tag @organization.avatar_url, class: 'org_avatar'
     = @organization.name
     public members' wheelhouse
-  - if @organization.members.any?
-    - @organization.members.order('github_login').each do |member|
+  - if @members.any?
+    - @members.each do |member|
       .member
         .member-image
           = image_tag member.avatar_url, class: 'org_avatar'
@@ -13,6 +13,6 @@
           .member-detail
             %p
               - member.languages.each_with_index do |language, index|
-                = link_to language.name.to_s.downcase, '#', class: "lang rank-#{index}"
+                = link_to language.name.to_s.downcase, organization_path(@organization, sort: language.name), class: "lang rank-#{index}"
   - else
     %p There are no public members for this organization.

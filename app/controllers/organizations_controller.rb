@@ -42,6 +42,13 @@ class OrganizationsController < ApplicationController
   # GET /organizations/openlexington
   def show
     @organization = Organization.find(params[:id])
+    if params[:sort]
+      @members = @organization.members.includes(:languages).
+                               order("languages.name = \'#{params[:sort]}\' DESC,
+                                     languages.bytes DESC")
+    else
+      @members = @organization.members
+    end
   end
 
   private
