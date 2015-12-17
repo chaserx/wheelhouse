@@ -31,5 +31,5 @@ programming in style.
 
 ## Pull requests welcome
 
-Pull requests are welcome. Please follow the [Contribution Guide](CONTRIBUTION.md)
+Pull requests are welcome. Please follow the [Contribution Guide](CONTRIBUTING.md)
 
