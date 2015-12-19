@@ -9,7 +9,7 @@
         .member-image
           = image_tag member.avatar_url, class: 'org_avatar'
         .member-content
-          %h1= member.github_login
+          %h1= link_to member.github_login, member.profile_url
           .member-detail
             %p
               - member.languages.each_with_index do |language, index|
