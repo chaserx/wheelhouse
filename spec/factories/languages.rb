@@ -2,6 +2,6 @@ FactoryGirl.define do
   factory :language do
     member
     name 'ruby'
-    bytes 4000000
+    bytes 4_000_000
   end
 end
