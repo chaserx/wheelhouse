@@ -280,6 +280,7 @@ GEM
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     uniform_notifier (1.9.0)
+    vcr (3.0.0)
     web-console (2.2.1)
       activemodel (>= 4.0)
       binding_of_caller (>= 0.7.2)
@@ -303,6 +304,7 @@ DEPENDENCIES
   bullet
   bundler-audit
   byebug
+  capybara (~> 2.5.0)
   capybara-webkit
   coffee-rails (~> 4.1.0)
   database_cleaner
@@ -341,6 +343,7 @@ DEPENDENCIES
   timecop
   title
   uglifier
+  vcr (~> 3.0.0)
   web-console
   webmock
 
