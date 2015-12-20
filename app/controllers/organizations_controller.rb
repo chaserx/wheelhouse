@@ -56,7 +56,7 @@ class OrganizationsController < ApplicationController
 
   def not_found
     flash[:alert] = 'Sorry. We could not find or create organization:' \
-                    " #{org_name}"
+                    " #{params[:organization][:name]}"
     redirect_to root_path
   end
 end
