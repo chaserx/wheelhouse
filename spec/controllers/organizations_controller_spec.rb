@@ -19,11 +19,11 @@ RSpec.describe OrganizationsController, type: :controller do
 
   describe 'POST #create' do
     context 'non-existant organization' do
-      let(:make_request) {
+      let(:make_request) do
         VCR.use_cassette('bad_request') do
           post :create, organization: { name: 'blarg' }
         end
-      }
+      end
 
       it 'redirects to root_path' do
         expect(make_request).to redirect_to(root_path)
