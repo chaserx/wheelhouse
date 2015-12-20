@@ -4,5 +4,6 @@ FactoryGirl.define do
     login 'testorg'
     github_id 1234
     avatar_url 'http://example.com'
+    members {|e| [e.association(:member)] }
   end
 end
