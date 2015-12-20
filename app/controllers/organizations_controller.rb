@@ -7,29 +7,26 @@ class OrganizationsController < ApplicationController
   # POST /organizations
   def create
     org_name = params[:organization][:name].downcase
+    if org_name.blank?
+      flash[:alert] = 'You must provide an organization name.'
+      redirect_to root_path
+      return
+    end
     @organization = Organization.find_or_initialize_by(name: org_name)
     @client = GithubClient.new
     if @organization.new_record? # or record is outdated
-      if data = @client.fetch_org_info(@organization.name)
-        if @organization.set_github_attrs(data)
-          if @organization.save
-            @members = @client.fetch_org_member_list(@organization.login)
-            @members.each do |member_data|
-              member_args = { github_login: member_data.login }
-              member = Member.find_or_initialize_by(member_args)
-              # if new member record or member record outdated
-              member.set_github_attrs(member_data)
-              member.organizations << @organization
-              member.save
-              SkillFetcherJob.perform_later(member.id)
-            end
-            redirect_to @organization
-          else
-            not_found # being lazy, but this is really could not save
-          end
+      data = @client.fetch_org_info(@organization.name)
+      if @organization.set_github_attrs(data)
+        if @organization.save
+          grab_members(@organization)
+          flash[:notice] = "We're busy gathering data from GitHub." \
+                           ' This might take a while. You may want to' \
+                           ' refresh often.'
+          redirect_to @organization
         else
-          # if we get here, it's real bad
-          not_found
+          flash[:alert] = 'Failed to create organization: ' +
+                          @organization.errors.full_messages.join(', ')
+          redirect_to root_path
         end
       else
         not_found
@@ -58,5 +55,19 @@ class OrganizationsController < ApplicationController
     flash[:alert] = 'Sorry. We could not find or create organization:' \
                     " #{params[:organization][:name]}"
     redirect_to root_path
+  end
+
+  def grab_members(org)
+    @client = GithubClient.new
+    @members = @client.fetch_org_member_list(org.login)
+    @members.each do |member_data|
+      member_args = { github_login: member_data.login }
+      member = Member.find_or_initialize_by(member_args)
+      next unless member.new_record?
+      member.set_github_attrs(member_data)
+      member.organizations << org
+      member.save
+      SkillFetcherJob.perform_later(member.id)
+    end
   end
 end
