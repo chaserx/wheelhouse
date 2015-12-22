@@ -2,7 +2,7 @@ class Organization < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-  has_and_belongs_to_many :members, -> { uniq }
+  has_and_belongs_to_many :members
   validates :name, presence: true
 
   def set_github_attrs(org_info)

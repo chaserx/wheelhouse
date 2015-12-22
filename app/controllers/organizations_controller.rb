@@ -65,7 +65,7 @@ class OrganizationsController < ApplicationController
       member = Member.find_or_initialize_by(member_args)
       next unless member.new_record? || member.stale?
       member.set_github_attrs(member_data)
-      member.organizations << org unless member.organizations.exists?(org)
+      member.organizations << org unless member.organizations.exists?(org.id)
       member.save
       SkillFetcherJob.perform_later(member.id)
     end
