@@ -12,7 +12,11 @@
           %h1= link_to member.github_login, member.profile_url
           .member-detail
             %p
-              - member.languages.each_with_index do |language, index|
-                = link_to language.name.to_s.downcase, organization_path(@organization, sort: language.name), class: "lang rank-#{index}"
+              - if member.languages.any?
+                - member.languages.each_with_index do |language, index|
+                  = link_to language.name.to_s.downcase, organization_path(@organization, sort: language.name), class: "lang rank-#{index}"
+              - else
+                %i.fa.fa-cog.fa-spin
+                Gathering language data. Please stand by.
   - else
     %p There are no public members for this organization.

@@ -14,7 +14,7 @@ class OrganizationsController < ApplicationController
     end
     @organization = Organization.find_or_initialize_by(name: org_name)
     @client = GithubClient.new
-    if @organization.new_record? # or record is outdated
+    if @organization.new_record? || @organization.stale?
       data = @client.fetch_org_info(@organization.name)
       if @organization.set_github_attrs(data)
         if @organization.save
@@ -45,7 +45,7 @@ class OrganizationsController < ApplicationController
                  order("languages.name = \'#{params[:sort]}\' DESC,
                                      languages.bytes DESC")
     else
-      @members = @organization.members
+      @members = @organization.members.order('github_login')
     end
   end
 
@@ -63,9 +63,9 @@ class OrganizationsController < ApplicationController
     @members.each do |member_data|
       member_args = { github_login: member_data.login }
       member = Member.find_or_initialize_by(member_args)
-      next unless member.new_record?
+      next unless member.new_record? || member.stale?
       member.set_github_attrs(member_data)
-      member.organizations << org
+      member.organizations << org unless member.organizations.exists?(org)
       member.save
       SkillFetcherJob.perform_later(member.id)
     end
