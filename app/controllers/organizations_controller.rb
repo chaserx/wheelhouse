@@ -47,13 +47,14 @@ class OrganizationsController < ApplicationController
     else
       @members = @organization.members.order('github_login')
     end
+  rescue ActiveRecord::RecordNotFound
+    not_found
   end
 
   private
 
   def not_found
-    flash[:alert] = 'Sorry. We could not find or create organization:' \
-                    " #{params[:organization][:name]}"
+    flash[:alert] = 'Sorry. We could not find that organization on GitHub.'
     redirect_to root_path
   end
 
