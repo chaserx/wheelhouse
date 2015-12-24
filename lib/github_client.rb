@@ -19,7 +19,18 @@ class GithubClient
   def fetch_member_languages(member_login)
     languages = {}
     member = connection.user(member_login)
-    repos = member.rels[:repos].get.data
+    repo_page = member.rels[:repos].get
+    repos = []
+
+    # first page / first round
+    repos.concat(repo_page.data)
+
+    # successive pages
+    until repo_page.rels[:next].nil?
+      repo_page = repo_page.rels[:next].get
+      repos.concat(repo_page.data)
+    end
+
     repos.each do |repo|
       next if repo.fork
       languages.merge!(repo.rels[:languages].get.data) do |_k, old_val, new_val|
