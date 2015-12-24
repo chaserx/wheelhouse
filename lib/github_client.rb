@@ -18,9 +18,9 @@ class GithubClient
 
   def fetch_member_languages(member_login)
     languages = {}
+    repos = []
     member = connection.user(member_login)
     repo_page = member.rels[:repos].get
-    repos = []
 
     # first page / first round
     repos.concat(repo_page.data)
