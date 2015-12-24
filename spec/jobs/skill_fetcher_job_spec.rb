@@ -51,11 +51,11 @@ RSpec.describe SkillFetcherJob, type: :job do
     end
 
     it 'returns a hash with language keys and byte values' do
-      expected_hsh = {:Ruby=>969926, :JavaScript=>959973, :CSS=>264713,
-                      :HTML=>63030, :VimL=>17709, :Swift=>12933,
-                      :CoffeeScript=>12107, :"Objective-C"=>9824,
-                      :Shell=>6939, :Arduino=>6044, :OpenSCAD=>2306,
-                      :PHP=>269}
+      expected_hsh = {:Ruby => 969926, :JavaScript => 959973, :CSS => 264713,
+                      :HTML => 63030, :VimL => 17709, :Swift => 12933,
+                      :CoffeeScript => 12107, :"Objective-C" => 9824,
+                      :Shell => 6939, :Arduino => 6044, :OpenSCAD => 2306,
+                      :PHP => 269}
       expect(make_request.call).to eq(expected_hsh)
     end
   end
